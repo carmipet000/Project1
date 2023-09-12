@@ -1,12 +1,31 @@
 package com.example.calculator
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.widget.Button;
 import android.widget.TextView
+import android.util.Log
+import kotlin.math.cos
+import kotlin.math.ln
+import kotlin.math.log
+import kotlin.math.sin
+import kotlin.math.tan
 
 // Zachary Baker is my partner
 
 class MainActivity : AppCompatActivity() {
+
+    /**
+     * The main variable for what is displayed on the screen
+     */
+    var display = ""
+
+    /**
+     * The backlog of information, that is compressed and calculated upon
+     */
+    var backlog = ""
+
 
     /**
      * onCreate() creates buttons for the calculator.
@@ -16,20 +35,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /**
-         * The main variable for what is displayed on the screen
-         */
-        var display = ""
-
-        /**
-         * The backlog of information, that is compressed and calculated upon
-         */
-        var backlog = ""
-
-
-
         val write: TextView=findViewById(R.id.numDisplay)
-
 
         /**
          * The 1 button's functionality
@@ -38,6 +44,7 @@ class MainActivity : AppCompatActivity() {
         click1.setOnClickListener {
             display += "1"
             write.text=display
+            Log.d("Button1", "clicked")
         }
 
         /**
@@ -47,6 +54,7 @@ class MainActivity : AppCompatActivity() {
         click2.setOnClickListener {
             display += "2"
             write.text=display
+            Log.d("Button2", "clicked")
         }
 
         /**
@@ -56,6 +64,7 @@ class MainActivity : AppCompatActivity() {
         click3.setOnClickListener {
             display += "3"
             write.text=display
+            Log.d("Button3", "clicked")
         }
 
         /**
@@ -65,6 +74,7 @@ class MainActivity : AppCompatActivity() {
         click4.setOnClickListener {
             display += "4"
             write.text=display
+            Log.d("Button4", "clicked")
         }
 
         /**
@@ -74,6 +84,7 @@ class MainActivity : AppCompatActivity() {
         click5.setOnClickListener {
             display+="5"
             write.text=display
+            Log.d("Button5", "clicked")
         }
 
         /**
@@ -83,6 +94,7 @@ class MainActivity : AppCompatActivity() {
         click6.setOnClickListener {
             display+="6"
             write.text=display
+            Log.d("Button6", "clicked")
         }
 
         /**
@@ -92,6 +104,7 @@ class MainActivity : AppCompatActivity() {
         click7.setOnClickListener {
             display+="7"
             write.text=display
+            Log.d("Button7", "clicked")
         }
 
         /**
@@ -101,6 +114,7 @@ class MainActivity : AppCompatActivity() {
         click8.setOnClickListener {
             display+="8"
             write.text=display
+            Log.d("Button8", "clicked")
         }
 
         /**
@@ -110,6 +124,7 @@ class MainActivity : AppCompatActivity() {
         click9.setOnClickListener {
             display += "9"
             write.text = display
+            Log.d("Button9", "clicked")
         }
 
         /**
@@ -120,6 +135,7 @@ class MainActivity : AppCompatActivity() {
             if (display != "") {
                 display += "0"
                 write.text = display
+                Log.d("Button0", "clicked")
             }
         }
 
@@ -131,6 +147,7 @@ class MainActivity : AppCompatActivity() {
             display = ""
             backlog = ""
             write.text = "0"
+            Log.d("ButtonC", "clicked")
         }
 
         /**
@@ -144,6 +161,7 @@ class MainActivity : AppCompatActivity() {
                 write.text = backlog
                 backlog += "+"
                 display = ""
+                Log.d("ButtonAdd", "clicked")
             }
         }
 
@@ -158,6 +176,7 @@ class MainActivity : AppCompatActivity() {
                 write.text = backlog
                 backlog += "_"
                 display = ""
+                Log.d("ButtonSubtract", "clicked")
             }
         }
 
@@ -172,6 +191,7 @@ class MainActivity : AppCompatActivity() {
                 write.text = backlog
                 backlog += "x"
                 display = ""
+                Log.d("ButtonMultiply", "clicked")
             }
         }
 
@@ -186,6 +206,7 @@ class MainActivity : AppCompatActivity() {
                 write.text = backlog
                 backlog += "/"
                 display = ""
+                Log.d("ButtonDivide", "clicked")
             }
         }
 
@@ -203,6 +224,7 @@ class MainActivity : AppCompatActivity() {
                     display += "."
                 }
                 write.text = display
+                Log.d("ButtonDecimal", "clicked")
             }
         }
 
@@ -218,6 +240,7 @@ class MainActivity : AppCompatActivity() {
                 backlog += "/"
                 display = ""
                 display += "100"
+                Log.d("ButtonPercent", "clicked")
             }
         }
 
@@ -233,6 +256,7 @@ class MainActivity : AppCompatActivity() {
                 backlog += "+"
                 display = ""
                 display += "0"
+                Log.d("ButtonEquals", "clicked")
             }
         }
 
@@ -248,10 +272,136 @@ class MainActivity : AppCompatActivity() {
                     display = "-" + display
                 }
                 write.text = display
+                Log.d("ButtonSign", "clicked")
             }
         }
 
+        val orientation: Int = getResources().getConfiguration().orientation
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // In landscape
 
+            /**
+             * The sine button's functionality
+             */
+            val clickSin: Button = findViewById(R.id.buttonSin)
+            clickSin.setOnClickListener {
+                if (display != "") {
+                    backlog += display
+                    backlog = compressBacklog(backlog)
+                    write.text = backlog
+                    backlog += "s"
+                    display = ""
+                    display += "1"
+                    backlog = compressBacklog(backlog)
+                    write.text = backlog
+                    Log.d("ButtonSin", "clicked")
+                }
+            }
+
+
+            /**
+             * The cosine button's functionality
+             */
+            val clickCos: Button = findViewById(R.id.buttonCos)
+            if (clickCos != null) {
+                clickCos.setOnClickListener {
+                    if (display != "") {
+                        backlog += display
+                        backlog = compressBacklog(backlog)
+                        write.text = backlog
+                        backlog += "c"
+                        display = ""
+                        display += "1"
+                        backlog = compressBacklog(backlog)
+                        write.text = backlog
+                        Log.d("ButtonCos", "clicked")
+                    }
+                }
+            }
+
+            /**
+             * The tangent button's functionality
+             */
+            val clickTan: Button = findViewById(R.id.buttonTan)
+            if (clickTan != null) {
+                clickTan.setOnClickListener {
+                    if (display != "") {
+                        backlog += display
+                        backlog = compressBacklog(backlog)
+                        write.text = backlog
+                        backlog += "t"
+                        display = ""
+                        display += "1"
+                        backlog = compressBacklog(backlog)
+                        write.text = backlog
+                        Log.d("ButtonTan", "clicked")
+                    }
+                }
+            }
+
+            /**
+             * The Log of 10 button's functionality
+             */
+            val clickLog: Button = findViewById(R.id.buttonLog)
+            if (clickLog != null) {
+                clickLog.setOnClickListener {
+                    if (display != "") {
+                        backlog += display
+                        backlog = compressBacklog(backlog)
+                        write.text = backlog
+                        backlog += "l"
+                        display = ""
+                        display += "10"
+                        Log.d("ButtonLog", "clicked")
+                    }
+                }
+            }
+
+            /**
+             * The natural log button's functionality
+             */
+            val clickLn: Button = findViewById(R.id.buttonLn)
+            if (clickLn != null) {
+                clickLn.setOnClickListener {
+                    if (display != "") {
+                        backlog += display
+                        backlog = compressBacklog(backlog)
+                        write.text = backlog
+                        backlog += "l"
+                        display = ""
+                        display += Math.E.toString()
+                        Log.d("ButtonLn", "clicked")
+                    }
+                }
+            }
+        }
+
+    }
+    /**
+     * When screen flips, display and backlog are stored
+     */
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("key1", display)
+        outState.putString("key2", backlog)
+        val startScreen: TextView=findViewById(R.id.numDisplay)
+        val text = startScreen.text.toString()
+        outState.putString("key3", text)
+
+    }
+
+    /**
+     * After screen flips, transfer saved variables back into relevant variables
+     */
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        display = savedInstanceState.getString("key1", "")
+        backlog = savedInstanceState.getString("key2", "")
+        val text = savedInstanceState.getString("key3", "")
+        val startScreen: TextView=findViewById(R.id.numDisplay)
+        startScreen.text = text
     }
 
     /**
@@ -261,11 +411,10 @@ class MainActivity : AppCompatActivity() {
     fun compressBacklog(backLog: String): String {
         var num1 = 0.0
         var backStr = ""
-        val numArr = backLog.split("+", "_", "/", "x").toTypedArray()
+        val numArr = backLog.split("+", "_", "/", "x", "s", "c", "t", "l").toTypedArray()
         if (backLog.contains("+") || backLog.contains("_") || backLog.contains("x") || backLog.contains(
-                "/"
-            )
-        ) {
+                "/") || backLog.contains("s") || backLog.contains("c") || backLog.contains("t")
+            || backLog.contains("l")) {
             if (backLog.contains("+")) {
                 num1 = numArr[0].toDouble() + numArr[1].toDouble()
             } else if (backLog.contains("_")) {
@@ -274,6 +423,14 @@ class MainActivity : AppCompatActivity() {
                 num1 = numArr[0].toDouble() / numArr[1].toDouble()
             } else if (backLog.contains("x")) {
                 num1 = numArr[0].toDouble() * numArr[1].toDouble()
+            } else if (backLog.contains("s")) {
+                num1 = sin(numArr[0].toDouble());
+            } else if (backLog.contains("c")) {
+                num1 = cos(numArr[0].toDouble());
+            } else if (backLog.contains("t")) {
+                num1 = tan(numArr[0].toDouble());
+            } else if (backLog.contains("l")) {
+                num1 = log(numArr[0].toDouble(), numArr[1].toDouble());
             }
 
             if (num1.toString().substring(num1.toString().length - 2, num1.toString().length)
@@ -295,5 +452,6 @@ class MainActivity : AppCompatActivity() {
             }
             return backStr
         }
+
     }
 }
